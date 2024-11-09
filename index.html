@@ -22,17 +22,22 @@
     <div id="pdf-viewer"></div>
 
     <script>
-        // Use the raw GitHub URL for the PDF file
-        const pdfUrl = 'https://cors-anywhere.herokuapp.com/https://raw.githubusercontent.com/landocalrissian910/resume/main/gd%20resume.pdf';
+        // Use the direct download URL from Google Drive
+        const pdfUrl = 'https://drive.google.com/uc?export=download&id=15W91-DU0F2JbqwGR_hrRHCGCh9KIWCAk';
+
         const pdfViewer = document.getElementById('pdf-viewer');
         let pdfDoc = null;
 
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
         async function renderPDF() {
-            pdfDoc = await pdfjsLib.getDocument(pdfUrl).promise;
-            for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
-                await renderPage(pageNum);
+            try {
+                pdfDoc = await pdfjsLib.getDocument(pdfUrl).promise;
+                for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+                    await renderPage(pageNum);
+                }
+            } catch (error) {
+                console.error("Error loading PDF:", error);
             }
         }
 
